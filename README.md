@@ -1,3 +1,3 @@
-# reversi
+## reversi
 
-### Implemented in C++
+Implemented in C++
