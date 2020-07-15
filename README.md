@@ -1,0 +1,3 @@
+# reversi
+
+### Implemented in C++
