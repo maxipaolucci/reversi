@@ -20,12 +20,12 @@ Game::~Game()
   this->end_game();
 }
 
-Player *Game::get_player(char shape) {
+unique_ptr<Player> Game::get_player(char shape) {
   if (this->player_one.getShape() == shape) {
-    return &(this->player_one);
+    return make_unique<Player>(this->player_one);
   }
   
-  return &(this->player_two);
+  return make_unique<Player>(this->player_two);
 }
 
 void Game::create_players() {

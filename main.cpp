@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "game.h"
 #include "move.h"
@@ -9,8 +10,9 @@
 using namespace std;
 
 int main() {
-  Game *game = new Game();
-  Player *currentPlayer {nullptr};
+  //Game *game = new Game();
+  unique_ptr<Game> game = make_unique<Game>();
+  unique_ptr<Player> currentPlayer;
 
   int col {0};
   int row {0};
@@ -42,15 +44,13 @@ int main() {
     if (winnerShape == '=') {
       ConsoleRenderer::get_instance()->print_message("game", "Congratulations was a tie!");
     } else {
-      Player *winner = game->get_player(winnerShape);
+      unique_ptr<Player> winner = game->get_player(winnerShape);
       ConsoleRenderer::get_instance()->print_message("game", winner->getName() + " (" + winner->getShape() + ") won. Well done!");
     }
     
   }
 
   ConsoleRenderer::get_instance()->print_message("game", "Ta luego!");
-
-  delete game;
 
   return 0;
 }

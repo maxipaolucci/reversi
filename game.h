@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "player.h"
 #include "board.h"
@@ -23,7 +24,7 @@ public:
   Game(Game &&source); //move constructor . (r-values: temp/unnamed. e.g.: Player *p = *(Game{}).get_player('x'); )
   ~Game();
   
-  Player *get_player(char shape);
+  unique_ptr<Player> get_player(char shape);
   void create_players();
   void create_board();
   void new_game();
