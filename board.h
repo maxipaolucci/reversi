@@ -21,15 +21,15 @@ class Board
 private:
   array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> board {Constants::BOARD_EMPTY_CELL};
   
-  vector<Move> history;
+  vector<shared_ptr<Move>> history;
   
-  bool is_valid(Move move);
+  bool is_valid(const shared_ptr<Move> &move_ptr);
 
   bool in_bounds(int const col, int const row, bool const print_messages = false) const;
 
   int evaluate_direction(int const col, int const row, char const shape, int &count, array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> &test_board);
 
-  int ripple(const Move move, array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> &new_board);
+  int ripple(const shared_ptr<Move> &move, array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> &new_board);
 
 public:
   Board(/* args */);
@@ -43,7 +43,7 @@ public:
   
   bool is_block(const char shape);
 
-  bool move(const Move move);
+  bool move(const shared_ptr<Move> &move_ptr);
 };
 
 #endif // !Board_H_

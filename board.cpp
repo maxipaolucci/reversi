@@ -46,23 +46,23 @@ array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> Board::get_boar
   return this->board;
 }
 
-bool Board::move(const Move move) {
-  if (!this->is_valid(move)) {
+bool Board::move(const shared_ptr<Move> &move_ptr) {
+  if (!this->is_valid(move_ptr)) {
     return false;
   }
 
-  int flip_count = this->ripple(move, this->board);
+  int flip_count = this->ripple(move_ptr, this->board);
   if (flip_count == 0) {
     ConsoleRenderer::get_instance()->print_message("error", "The position choosen is not valid");
     return false;
   } 
   
   ConsoleRenderer::get_instance()->print_message("info", "Flip count = " + to_string(flip_count));
-  this->board[move.x][move.y] = move.shape;
+  this->board[(*move_ptr).x][(*move_ptr).y] = (*move_ptr).shape;
   ConsoleRenderer::get_instance()->render_board(this->board);
-  this->history.push_back(move);
+  this->history.push_back(move_ptr);
   
-  ScoreBoard::get_instance()->increment(move.shape, ++flip_count);
+  ScoreBoard::get_instance()->increment((*move_ptr).shape, ++flip_count);
 
   return true;
 }
@@ -76,8 +76,7 @@ bool Board::is_block(char const shape) {
       test_board = this->board; //copy the board, we don't want to change it in this test
       
       if (test_board[col][row] == Constants::BOARD_EMPTY_CELL) {
-        const Move eval {col, row, shape};
-        if (this->ripple(eval, test_board) > 0) {
+        if (this->ripple(make_shared<Move>(col, row, shape), test_board) > 0) {
           return false;
         }
       }
@@ -87,17 +86,16 @@ bool Board::is_block(char const shape) {
   return result;
 }
 
-bool Board::is_valid(Move const move) {
-  if (!this->in_bounds(move.x, move.y, true)) {
+bool Board::is_valid(const shared_ptr<Move> &move_ptr) {
+  if (!this->in_bounds((*move_ptr).x, (*move_ptr).y, true)) {
     //out of bound
     return false;
-  } else if (this->board[move.x][move.y] != Constants::BOARD_EMPTY_CELL) {
+  } else if (this->board[(*move_ptr).x][(*move_ptr).y] != Constants::BOARD_EMPTY_CELL) {
     // the cell is not empty
     ConsoleRenderer::get_instance()->print_message("error", "The position choosen is not empty");
     return false;
   }
 
-  //TODO validate the the move.shape could be set in the move x and y coords
   return true;
 }
 
@@ -121,7 +119,7 @@ bool Board::in_bounds(int const col, int const row, bool const print_messages) c
   return result;
 }
 
-int Board::ripple(const Move move, array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> &new_board) {
+int Board::ripple(const shared_ptr<Move> &move, array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> &new_board) {
   int total_count {0};
   array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> test_board = new_board; //copy the board
 
@@ -129,7 +127,7 @@ int Board::ripple(const Move move, array<array<char, Constants::BOARD_SIZE>, Con
     int count {0};
     int evaluation_result {0};
 
-    Move eval {move};
+    Move eval {*move};
     while (evaluation_result == 0) {
       eval = Helper::next((Helper::compass)direction, eval);
       evaluation_result = this->evaluate_direction(eval.x, eval.y, eval.shape, count, test_board);
@@ -147,32 +145,6 @@ int Board::ripple(const Move move, array<array<char, Constants::BOARD_SIZE>, Con
 
   return total_count;
 }
-// int Board::ripple(Move move) {
-//   int total_count {0};
-//   array<array<char, Constants::BOARD_SIZE>, Constants::BOARD_SIZE> test_board = this->board; //copy the board
-
-//   for (size_t direction = 0; direction < 8; direction++) {
-//     int count {0};
-//     int evaluation_result {0};
-
-//     Move eval {move};
-//     while (evaluation_result == 0) {
-//       eval = Helper::next((Helper::compass)direction, eval);
-//       evaluation_result = this->evaluate_direction(eval.x, eval.y, eval.shape, count, test_board);
-//     }
-    
-//     if (evaluation_result == -1) {
-//       // discard direction
-//       test_board = this->board;
-//     } else if (evaluation_result == 1){
-//       // success on this direction
-//       this->board = test_board;
-//       total_count += count;
-//     }
-//   }
-
-//   return total_count;
-// }
 
 /**
  * Evaluates a direction in the board.
