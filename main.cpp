@@ -6,10 +6,12 @@
 #include "shape.h"
 #include "turn_handler.h"
 #include "score_board.h"
+#include "config.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]){
+  cout << argv[0] << " Version " << App_VERSION_MAJOR << "." << App_VERSION_MINOR << endl;
   unique_ptr<Game> game_ptr = make_unique<Game>();
   unique_ptr<Player> current_player_ptr;
 

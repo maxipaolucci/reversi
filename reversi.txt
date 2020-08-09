@@ -1,0 +1,1 @@
+Debug/move.cpp.o Debug/playertype.cpp.o Debug/player.cpp.o Debug/game.cpp.o Debug/main.cpp.o

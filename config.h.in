@@ -1,0 +1,15 @@
+//
+//  Config.h
+//  firstProgram
+//
+//  Created by Maxi Paolucci on 7/08/20.
+//
+
+#ifndef Config_h_in
+#define Config_h_in
+
+// the configured options and settings for Tutorial
+#define App_VERSION_MAJOR @app_VERSION_MAJOR@
+#define App_VERSION_MINOR @app_VERSION_MINOR@
+
+#endif /* Config_h_in */
