@@ -32,7 +32,6 @@ target_link_libraries(app PUBLIC Renderers)
 target_include_directories(app
   PUBLIC
     "${PROJECT_BINARY_DIR}"
-    "${PROJECT_SOURCE_DIR}/renderers"
 )
                           
 # create and include config.h
@@ -50,19 +49,19 @@ install(FILES "${CMAKE_CONFIG_OUTPUT_DIRECTORY}/config.h"
 enable_testing()
 
 # does the application run
-add_test(NAME Runs COMMAND app 4 5)
+# add_test(NAME Runs COMMAND app 4 5)
 
 # define a function to simplify adding tests
-function(do_test target arg1 arg2 result)
-  add_test(NAME Computing${arg1}-${arg2} COMMAND ${target} ${arg1} ${arg2})
-  set_tests_properties(Computing${arg1}-${arg2}
-    PROPERTIES PASS_REGULAR_EXPRESSION ${result}
-  )
-endfunction(do_test)
+# function(do_test target arg1 arg2 result)
+#  add_test(NAME Computing${arg1}-${arg2} COMMAND ${target} ${arg1} ${arg2})
+#  set_tests_properties(Computing${arg1}-${arg2}
+#    PROPERTIES PASS_REGULAR_EXPRESSION ${result}
+#  )
+# endfunction(do_test)
 
 # do a bunch of result based tests
-do_test(app 4 5 "291.5")
-do_test(app 14 25 "1298.5")
+# do_test(app 4 5 "291.5")
+# do_test(app 14 25 "1298.5")
 
 
 # Pack for distribution
