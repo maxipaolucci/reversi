@@ -4,7 +4,7 @@
 #include <iostream>
 #include "shape.h"
 #include "player.h"
-#include "console_renderer.h"
+#include "renderers/console_renderer.h"
 
 class ScoreBoard
 {

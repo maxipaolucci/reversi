@@ -9,7 +9,7 @@
 #include "constanst.h"
 #include "shape.h"
 #include "move.h"
-#include "console_renderer.h"
+#include "renderers/console_renderer.h"
 #include "turn_handler.h"
 #include "helper.h"
 #include "score_board.h"

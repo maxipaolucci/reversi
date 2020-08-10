@@ -6,10 +6,10 @@
 #include <cctype>
 #include <algorithm>
 #include <vector>
-#include "board.h"
-#include "constanst.h"
-#include "player.h"
-#include "shape.h"
+#include "../board.h"
+#include "../constanst.h"
+#include "../player.h"
+#include "../shape.h"
 
 
 using namespace std;

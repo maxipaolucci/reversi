@@ -16,12 +16,25 @@ set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/install")
 #Bring the headers into the project
 #include_directories(${PROJECT_SOURCE_DIR})
 
+# add the Renderers library
+add_subdirectory(renderers)
+
 # package the sourcers in SOURCES
 file(GLOB SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
 
 # executable
 add_executable(app ${SOURCES})
 
+target_link_libraries(app PUBLIC Renderers)
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(app
+  PUBLIC
+    "${PROJECT_BINARY_DIR}"
+    "${PROJECT_SOURCE_DIR}/renderers"
+)
+                          
 # create and include config.h
 configure_file(config.h.in ${CMAKE_CONFIG_OUTPUT_DIRECTORY}/config.h)
 target_include_directories(app PUBLIC "${CMAKE_CONFIG_OUTPUT_DIRECTORY}")
